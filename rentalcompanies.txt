@@ -1,0 +1,26 @@
+Hertz#300
+Hertz#-10
+Hertz#200
+Avis#0
+Avis#10
+Avis#100
+Budget#300
+Thrifty#400
+Thrifty#-40
+Enterprise#-100
+Enterprise#200
+National#-200
+Alamo#-300
+Sixt#-400
+Sixt#-150
+Sixt#0
+Sixt#100
+Europcar#500
+Emirates#400
+Dollar#-500
+Dollar#-300
+Dollar#400
+Thrifty Select#200
+Alpha#-10
+NordCar#150
+BestCar#410
