@@ -2,6 +2,7 @@ package be03.borok_szabolcs.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Car {
     
@@ -52,6 +53,12 @@ public class Car {
     
     private Double calculateRange() {
         return (this.tankCapacity / this.consumption) * 100;
+    }
+    
+    public static Car getRandomCar(List<Car> cars) {
+        Random rnd = new Random();
+        int randomIndex = rnd.nextInt(0,cars.size());
+        return cars.get(randomIndex);
     }
     
     

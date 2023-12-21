@@ -37,6 +37,8 @@ public class RentalCompany {
         this.garage.add(car);
     }
     
+    public void removeCar(Car car) { this.garage.remove(car); }
+    
     public void removeCarByIndex(Integer index) {
         Car currentCar = this.garage.get(index);
         this.garage.remove(currentCar);
@@ -107,8 +109,16 @@ public class RentalCompany {
         return this.garage.get(index);
     }
     
+    public Car getRandomCarFromGarage() {
+        int randomCarIndex = new Random().nextInt(0,this.garage.size());
+        return this.garage.get(randomCarIndex);
+    }
     
-    
+    public static RentalCompany randomCompany(List<RentalCompany> rentalCompanies) {
+        Random rnd = new Random();
+        int randomIndex = rnd.nextInt(0,rentalCompanies.size());
+        return rentalCompanies.get(randomIndex);
+    }
     
     
     

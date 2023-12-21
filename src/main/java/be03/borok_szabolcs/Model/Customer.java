@@ -2,6 +2,7 @@ package be03.borok_szabolcs.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Customer {
     
@@ -37,4 +38,14 @@ public class Customer {
     
     
     //--------------------------------------------------------------
+    
+    public static Customer randomCustomer(List<Customer> customers) {
+        int randomCustomerIndex = new Random().nextInt(0,customers.size());
+        return customers.get(randomCustomerIndex);
+    }
+    
+    public void pay(Integer price) { this.budget -= price; }
+    
+    
+    
 }

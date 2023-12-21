@@ -2,8 +2,11 @@ package be03.borok_szabolcs.Logic;
 
 import be03.borok_szabolcs.Model.Car;
 import be03.borok_szabolcs.Model.Customer;
+import be03.borok_szabolcs.Model.Rental;
 import be03.borok_szabolcs.Model.RentalCompany;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -120,7 +123,7 @@ public class Logic {
                 
                 try {
                     if (input < 500 && input > -500) {
-                        myScanner.close();
+                        //myScanner.close();
                         return input;
                     } else {
                         throw new Exception();
@@ -171,16 +174,83 @@ public class Logic {
         int chosenCustomersAge = chosenCustomer.getAge();
         double multiplier = chosenCustomersAge < 35 ? 1.1 : 1;
         
-        int deposit = chosenCar.getPrice() * days;
-        double fuelCost = days * dailyKm * chosenCar.getConsumption() * fuelPricePerLiter;
+        int deposit = chosenCar.getPrice() * 20;
+        double fuelCost = (double) (days * dailyKm) / 100 * chosenCar.getConsumption() * fuelPricePerLiter;
         
         double fullCost = (deposit + fuelCost) * multiplier;
         
         return (int)fullCost;
     }
     
+    public static void rentals(List<RentalCompany> companies, List<Customer> customers) {
+        //9. Készítsen metódust, amely 8 darab bérlést létrehoz 8 darab
+        //véletlenszerűen kiválasztott céghez. Ezeket a bérléseket a Rental
+        //osztálynak megfelelően hozza létre. A bérlés időtartama 3-20 napig
+        //terjedjen. A kezdet a mai naptól 2 napig visszamenőleg lehet vagy 1
+        //héttel előre. Amennyiben a kezdeti dátum a jövőben van, akkor az
+        //isActive mező értéke false legyen. Amennyiben egy bérlés történik, akkor
+        //a kereskedő garázsából el kell távolítani a kocsit.
+        
+        for (int i = 0; i < 8; i++) {
+            RentalCompany currentRentalCompany = RentalCompany.randomCompany(companies);
+            Car currentCar = currentRentalCompany.getRandomCarFromGarage();
+            Customer currentCustomer = Customer.randomCustomer(customers);
+            
+            int deposit = currentCar.getPrice() * 20;
+            int duration = new Random().nextInt(3,21);
+            int startingDayModifier = new Random().nextInt(-2,8);
+            
+            LocalDate now = LocalDate.now();
+            LocalDate start = LocalDate.ofEpochDay(now.toEpochDay()-startingDayModifier);
+            LocalDate end = LocalDate.ofEpochDay(start.toEpochDay() + duration);
+            Boolean isActive = start.toEpochDay() <= now.toEpochDay();
+            
+            Rental newRental = new Rental(currentCustomer,currentCar,start,end,deposit,isActive);
+            currentRentalCompany.addRental(newRental);
+            if (isActive) { currentRentalCompany.removeCar(currentCar); }
+            
+            currentCustomer.pay(deposit + (duration * currentCar.getPrice()));
+        }
+    }
     
+    public static Boolean expiredLicence(List<RentalCompany> companies) {
+        //10. Van olyan bérlés, ahol a bérlő igazolványának érvényessége lejárt?
+        for (int i = 0; i < companies.size(); i++) {
+            RentalCompany currentCompany = companies.get(i);
+            if (companies.get(i).getRentals() != null) {
+                List<Rental> currentRentalList = currentCompany.getRentals();
+                for (int j = 0; j < currentRentalList.size(); j++) {
+                    Rental currentRental = currentRentalList.get(j);
+                    long licenceValidTo = currentRental.getRenter().getLicence().getValidTo().toEpochDay();
+                    long now = LocalDate.now().toEpochDay();
+                    if (licenceValidTo < now) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     
+    public static void newCars(List<RentalCompany> companies, List<Car> cars) {
+        //11. A 150 távolságnál közelebbi cégek 3 új autót kapnak. Adja hozzá ezeket a véletlenszerűen kiválasztott autókat a cégek garázsához.
+        
+        int limit = 150;
+        int newCarNumber = 3;
+        List<RentalCompany> chosenRentalCompanies= new ArrayList<>();
+        
+        for (int i = 0; i < companies.size(); i++) {
+            RentalCompany currentRentalCompany = companies.get(i);
+            Integer position = currentRentalCompany.getLocation();
+            if (Math.abs(position) < limit) {
+                for (int j = 0; j < newCarNumber; j++) {
+                    currentRentalCompany.addCar(Car.getRandomCar(cars));
+                }
+            }
+        }
+    
+        
+    }
     
     
     

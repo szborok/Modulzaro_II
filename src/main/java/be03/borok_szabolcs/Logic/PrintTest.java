@@ -2,8 +2,10 @@ package be03.borok_szabolcs.Logic;
 
 import be03.borok_szabolcs.Model.Car;
 import be03.borok_szabolcs.Model.Customer;
+import be03.borok_szabolcs.Model.Rental;
 import be03.borok_szabolcs.Model.RentalCompany;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PrintTest {
@@ -61,11 +63,74 @@ public class PrintTest {
         Integer result = Logic.fiveDayRental(companies,position,customers);
         
         System.out.println(
-                "The price for 5 days with 150k/day with a random car from the closest rental company with 20x deposit will cost" + result.toString() + "."
+                "The price for 5 days with 150k/day with a random car from the closest rental company with 20x deposit will cost " + result.toString() + "."
         );
         System.out.println("---");
     }
     
+    public static void rentals(List<RentalCompany> companies, List<Customer> customers) {
+        Logic.rentals(companies,customers);
+        
+        //get companies with rentals
+        List<RentalCompany> rentalCompanyList = companies;
+        List<Integer> indexes = new ArrayList<>();
+        
+        for (int i = 0; i < rentalCompanyList.size(); i++) {
+            RentalCompany currentRentalCompany = rentalCompanyList.get(i);
+            if (!currentRentalCompany.getRentals().isEmpty()) {
+                indexes.add(i);
+            }
+        }
+        int cnt = 1;
+        for (int i = 0; i < indexes.size(); i++) {
+            RentalCompany currentRentalCompany = rentalCompanyList.get(indexes.get(i));
+            
+            for (int j = 0; j < currentRentalCompany.getRentals().size(); j++) {
+                System.out.println("Rental No." + (cnt));
+                System.out.println("Company name: " + currentRentalCompany.getName());
+                Rental currentRental = currentRentalCompany.getRentals().get(j);
+                System.out.println("Renter: " + currentRental.getRenter().getName());
+                System.out.println("Rented car: " + currentRental.getRentedCar().getBrand() + " - " + currentRental.getRentedCar().getModel());
+                System.out.println("From: " + currentRental.getFrom());
+                System.out.println("To: " + currentRental.getTo());
+                System.out.println("Deposit: " + currentRental.getDeposit());
+                System.out.println("Is the rent ongoing: " + currentRental.getActive());
+                System.out.println("---");
+                cnt++;
+            }
+        }
+    }
+    
+    public static void expiredLicence(List<RentalCompany> companies) {
+        Boolean answer = Logic.expiredLicence(companies);
+        
+        if (answer) {
+            System.out.println("There is a person's licence expired from the renters.");
+        } else {
+            System.out.println("Everybody's licence is valid who rented a car.");
+        }
+    }
+    
+    public static void newCars(List<RentalCompany> companies, List<Car> cars) {
+        List<RentalCompany> beforeDonation = List.copyOf(companies);
+        Logic.newCars(companies,cars);
+        
+        for (int i = 0; i < companies.size(); i++) {
+            List<Car> carsAfter = companies.get(i).getGarage();
+            List<Car> carsBefore = beforeDonation.get(i).getGarage();
+            
+            if (carsBefore.size() != carsAfter.size()) {
+                for (int j = 0; j < carsAfter.size(); j++) {
+                    if (!carsBefore.contains(carsAfter.get(j))) {
+                        String company = companies.get(i).getName();
+                        String brand = companies.get(i).getGarage().get(j).getBrand();
+                        String model = companies.get(i).getGarage().get(j).getModel();
+                        System.out.println(company + " has got a new " + brand + " - " + model + ".");
+                    }
+                }
+            }
+        }
+    }
     
     
     

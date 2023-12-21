@@ -20,14 +20,20 @@ public class Main {
         CarFactory.carGenerator("cars.txt");
         RentalCompaniesFactory.rentalCompanyGenerator("rentalcompanies.txt");
         
-        PrintTest.richestCostumer(Customer.customers);
-        PrintTest.longestRange(Car.cars);
-        PrintTest.mostNumOfCars(RentalCompany.rentalCompanies);
-        PrintTest.sixthWithin250(RentalCompany.rentalCompanies);
-        PrintTest.rentalNearby(RentalCompany.rentalCompanies, -300);
-        PrintTest.rentalNearbyUser(RentalCompany.rentalCompanies,Logic.userInput500());
-        PrintTest.tenDayPrice(RentalCompany.rentalCompanies);
-        //PrintTest.fiveDayRental(RentalCompany.rentalCompanies,Logic.userInput500(),Customer.customers);
+//        PrintTest.richestCostumer(Customer.customers);
+//        PrintTest.longestRange(Car.cars);
+//        PrintTest.mostNumOfCars(RentalCompany.rentalCompanies);
+//        PrintTest.sixthWithin250(RentalCompany.rentalCompanies);
+//        PrintTest.rentalNearby(RentalCompany.rentalCompanies, -300);
+//        PrintTest.rentalNearbyUser(RentalCompany.rentalCompanies,Logic.userInput500());
+//        PrintTest.tenDayPrice(RentalCompany.rentalCompanies);
+//        PrintTest.fiveDayRental(RentalCompany.rentalCompanies,Logic.userInput500(),Customer.customers);
+//        PrintTest.rentals(RentalCompany.rentalCompanies,Customer.customers);
+//        PrintTest.expiredLicence(RentalCompany.rentalCompanies);
+        PrintTest.newCars(RentalCompany.rentalCompanies,Car.cars);
+        
+        
+        
         
     }
 }
