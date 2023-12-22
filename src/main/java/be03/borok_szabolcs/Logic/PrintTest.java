@@ -135,4 +135,15 @@ public class PrintTest {
     
     
     
+    public static void simulateRental(List<RentalCompany> rentalCompanies, List<Customer> customers) {
+        //Create the 8 rentals to have data for simulation
+        Logic.rentals(rentalCompanies,customers);
+        
+        Logic.simulateRental(rentalCompanies);
+        
+        System.out.println("---");
+        
+    }
+    
+    
 }

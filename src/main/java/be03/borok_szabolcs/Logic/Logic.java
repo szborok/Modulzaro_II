@@ -141,6 +141,7 @@ public class Logic {
     
     public static Integer tenDayPrice(List<RentalCompany> companies) {
         //7. Mennyibe kerülne a bérlés 10 napra, ha -100-hoz legközelebbi bérlő cégnél kivennénk a legdrágább autót?
+        
         int days = 10;
         int position = -100;
         RentalCompany closestRentalCompany = Logic.rentalNearby(companies, position);
@@ -215,6 +216,7 @@ public class Logic {
     
     public static Boolean expiredLicence(List<RentalCompany> companies) {
         //10. Van olyan bérlés, ahol a bérlő igazolványának érvényessége lejárt?
+        
         for (int i = 0; i < companies.size(); i++) {
             RentalCompany currentCompany = companies.get(i);
             if (companies.get(i).getRentals() != null) {
@@ -248,10 +250,43 @@ public class Logic {
                 }
             }
         }
-    
-        
     }
     
+    public static void simulateRental(List<RentalCompany> rentalCompanies) {
+        //12. Készítsen metódust, amely leszimulálja, hogy 3 nap múlva, hány autó lesz kibérelve.
+        // Amennyiben egy bérlés lejár, az autó visszakerül az adott cég garázsába.
+        // Írassa ki a bérléseket az alábbi módon: Bérlő neve – Bérbeadó – Tól – Ig – Autó márka – Autó model
+    
+        LocalDate threeDaysLater = LocalDate.ofEpochDay(LocalDate.now().toEpochDay() + 3);
+        
+        //give back the cars
+        for (int i = 0; i < rentalCompanies.size(); i++) {
+            RentalCompany currentRentalCompany = rentalCompanies.get(i);
+            
+            for (int j = 0; j < currentRentalCompany.getRentals().size(); j++) {
+                Rental currentRental = currentRentalCompany.getRentals().get(j);
+                
+                if (currentRental.getTo().isBefore(threeDaysLater)) {
+                    currentRentalCompany.addCar(currentRental.getRentedCar());
+                }
+                ////Bérlő neve – Bérbeadó – Tól – Ig – Autó márka – Autó model
+                
+                System.out.printf("%s - %s - %3$tY.%3$tm.%3td. - %4$tY.%4$tm.%4td. - %s - %s %n",
+                        currentRental.getRenter().getName(),
+                        currentRentalCompany.getName(),
+                        currentRental.getFrom(),
+                        currentRental.getTo(),
+                        currentRental.getRentedCar().getBrand(),
+                        currentRental.getRentedCar().getModel());
+            }
+        }
+    
+        
+        
+        
+        
+        
+    }
     
     
     

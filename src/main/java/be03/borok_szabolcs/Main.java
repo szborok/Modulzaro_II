@@ -30,7 +30,8 @@ public class Main {
 //        PrintTest.fiveDayRental(RentalCompany.rentalCompanies,Logic.userInput500(),Customer.customers);
 //        PrintTest.rentals(RentalCompany.rentalCompanies,Customer.customers);
 //        PrintTest.expiredLicence(RentalCompany.rentalCompanies);
-        PrintTest.newCars(RentalCompany.rentalCompanies,Car.cars);
+//        PrintTest.newCars(RentalCompany.rentalCompanies,Car.cars); //TODO not working
+        PrintTest.simulateRental(RentalCompany.rentalCompanies,Customer.customers); //TODO date formatting not correct, big gap before days
         
         
         
